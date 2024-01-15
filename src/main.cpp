@@ -155,6 +155,18 @@ void opcontrol() {
     // controller
     // loop to continuously update motors
     while (true) {
+
+        //intake code 
+        pros::Motor liftMotor(5, pros::E_MOTOR_GEARSET_06,false); // left front motor. port 12, reversed
+        if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
+            liftMotor.move_velocity(600);
+        }else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
+            liftMotor.move_velocity(-600);
+        }else{
+            liftMotor.move_velocity(0);
+        }
+
+        //end intake code
         // get joystick positions
         int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
         int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
