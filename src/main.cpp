@@ -5,12 +5,12 @@
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
 // drive motors
-pros::Motor leftFront(-12, pros::E_MOTOR_GEARSET_06); // left front motor. port 12, reversed
-pros::Motor leftMiddle(-11, pros::E_MOTOR_GEARSET_06); // left middle motor. port 11, reversed
-pros::Motor leftBack(-1, pros::E_MOTOR_GEARSET_06); // left back motor. port 1, reversed
-pros::Motor rightFront(19, pros::E_MOTOR_GEARSET_06); // right front motor. port 2
-pros::Motor rightMiddle(20, pros::E_MOTOR_GEARSET_06); // right middle motor. port 11
-pros::Motor rightBack(9, pros::E_MOTOR_GEARSET_06); // right back motor. port 13
+pros::Motor leftFront(7, pros::E_MOTOR_GEARSET_06); // left front motor. port 12, reversed
+pros::Motor leftMiddle(8, pros::E_MOTOR_GEARSET_06); // left middle motor. port 11, reversed
+pros::Motor leftBack(-10, pros::E_MOTOR_GEARSET_06); // left back motor. port 1, reversed
+pros::Motor rightFront(-4, pros::E_MOTOR_GEARSET_06); // right front motor. port 2
+pros::Motor rightMiddle(-2, pros::E_MOTOR_GEARSET_06); // right middle motor. port 11
+pros::Motor rightBack(1, pros::E_MOTOR_GEARSET_06); // right back motor. port 13
 
 // motor groups
 pros::MotorGroup leftMotors({leftFront, leftMiddle, leftBack}); // left motor group
