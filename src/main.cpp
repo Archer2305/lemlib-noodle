@@ -158,6 +158,7 @@ void opcontrol() {
 
         //intake code 
         pros::Motor liftMotor(5, pros::E_MOTOR_GEARSET_06,false); // left front motor. port 12, reversed
+       liftMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
         if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
             liftMotor.move_velocity(600);
         }else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
@@ -165,8 +166,16 @@ void opcontrol() {
         }else{
             liftMotor.move_velocity(0);
         }
-
         //end intake code
+         pros::Motor intakeMotor(-1, pros::E_MOTOR_GEARSET_06,false); // left front motor. port 12, reversed
+       
+        if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
+            intakeMotor.move_velocity(600);
+        }else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
+            intakeMotor.move_velocity(-600);
+        }else{
+            intakeMotor.move_velocity(0);
+        }
         // get joystick positions
         int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
         int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
