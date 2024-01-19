@@ -176,6 +176,40 @@ void opcontrol() {
         }else{
             intakeMotor.move_velocity(0);
         }
+
+
+        //wings piston code
+      pros::ADIDigitalOut wingsPiston ('B'); // replace with actual port
+       bool isWingsPistonLocked=false;
+       bool toggleWings;
+       if(controller.getDigital(ControllerDigital::up) == 1){  
+          if(isWingsPistonLocked){
+          toggleWings=!toggleWings;
+          isWingsPistonLocked=false;
+          wingsPiston.set_value(toggleWings);    
+        }
+    }
+        if(controller.getDigital(ControllerDigital::up) == 0){
+          isWingsPistonLocked=true;
+        }
+
+        //end wings piston code
+       pros::ADIDigitalOut ratchetPiston ('B'); // replace with actual port
+       bool isRatchetPistonLocked=false;
+       bool toggleRatchet;
+       if(controller.getDigital(ControllerDigital::up) == 1){  
+          if(isRatchetPistonLocked){
+          toggleRatchet=!toggleRatchet;
+          isRatchetPistonLocked=false;
+          ratchetPiston.set_value(toggleRatchet);    
+        }
+    }
+        if(controller.getDigital(ControllerDigital::up) == 0){
+          isRatchetPistonLocked=true;
+        }
+        //start ratchet piston code 
+
+        //end ratched piston code
         // get joystick positions
         int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
         int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
