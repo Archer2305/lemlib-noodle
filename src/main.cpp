@@ -6,7 +6,7 @@ pros::Controller controller(pros::E_CONTROLLER_MASTER);
 pros::Motor intakeMotor(19, pros::E_MOTOR_GEARSET_06,false); // left front motor. port 12, reversed
 pros::Motor liftMotor(5, pros::E_MOTOR_GEARSET_06,false); // left front motor. port 12, reversed
 
-        pros::ADIDigitalOut wingsPiston ('B'); // replace with actual port
+        pros::ADIDigitalOut wingsPiston ('A'); // replace with actual port
        pros::ADIDigitalOut ratchetPiston ('B'); // replace with actual port
        bool isRatchetPistonLocked=false;
        bool toggleRatchet;
@@ -179,8 +179,10 @@ void opcontrol() {
        
         if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
             intakeMotor.move_velocity(600);
+            intakeMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
         }else if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)){
             intakeMotor.move_velocity(-600);
+            intakeMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
         }else{
             intakeMotor.move_velocity(0);
         }
@@ -188,28 +190,21 @@ void opcontrol() {
 
         //wings piston code
         
-       if(controller.getDigital(ControllerDigital::up) == 1){  
-          if(isWingsPistonLocked){
-          toggleWings=!toggleWings;
-          isWingsPistonLocked=false;
-          wingsPiston.set_value(toggleWings);    
+       if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_B) == 1){  
+          wingsPiston.set_value(1);    
         }
-    }
-        if(controller.getDigital(ControllerDigital::up) == 0){
-          isWingsPistonLocked=true;
+    
+        if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN) == 1){
+          wingsPiston.set_value(0);
         }
 
         //end wings piston code
-       
-       if(controller.getDigital(ControllerDigital::up) == 1){  
-          if(isRatchetPistonLocked){
-          toggleRatchet=!toggleRatchet;
-          isRatchetPistonLocked=false;
-          ratchetPiston.set_value(toggleRatchet);    
+
+       if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y) == 1){  
+          ratchetPiston.set_value(1);    
         }
-    }
-        if(controller.getDigital(ControllerDigital::up) == 0){
-          isRatchetPistonLocked=true;
+        if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT) == 1){  
+          ratchetPiston.set_value(0);    
         }
         //start ratchet piston code 
 
