@@ -3,8 +3,17 @@
 
 // controller
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
+pros::Motor intakeMotor(19, pros::E_MOTOR_GEARSET_06,false); // left front motor. port 12, reversed
+pros::Motor liftMotor(5, pros::E_MOTOR_GEARSET_06,false); // left front motor. port 12, reversed
 
+        pros::ADIDigitalOut wingsPiston ('B'); // replace with actual port
+       pros::ADIDigitalOut ratchetPiston ('B'); // replace with actual port
+       bool isRatchetPistonLocked=false;
+       bool toggleRatchet;
+       bool isWingsPistonLocked=false;
+       bool toggleWings;
 // drive motors
+
 pros::Motor leftFront(7, pros::E_MOTOR_GEARSET_06); // left front motor. port 12, reversed
 pros::Motor leftMiddle(8, pros::E_MOTOR_GEARSET_06); // left middle motor. port 11, reversed
 pros::Motor leftBack(-10, pros::E_MOTOR_GEARSET_06); // left back motor. port 1, reversed
@@ -77,6 +86,7 @@ lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
+    
     pros::lcd::initialize(); // initialize brain screen
     chassis.calibrate(); // calibrate sensors
 
@@ -157,7 +167,6 @@ void opcontrol() {
     while (true) {
 
         //intake code 
-        pros::Motor liftMotor(5, pros::E_MOTOR_GEARSET_06,false); // left front motor. port 12, reversed
        liftMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
         if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
             liftMotor.move_velocity(600);
@@ -167,7 +176,6 @@ void opcontrol() {
             liftMotor.move_velocity(0);
         }
         //end intake code
-         pros::Motor intakeMotor(19, pros::E_MOTOR_GEARSET_06,false); // left front motor. port 12, reversed
        
         if(controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
             intakeMotor.move_velocity(600);
@@ -179,9 +187,7 @@ void opcontrol() {
 
 
         //wings piston code
-      pros::ADIDigitalOut wingsPiston ('B'); // replace with actual port
-       bool isWingsPistonLocked=false;
-       bool toggleWings;
+        
        if(controller.getDigital(ControllerDigital::up) == 1){  
           if(isWingsPistonLocked){
           toggleWings=!toggleWings;
@@ -194,9 +200,7 @@ void opcontrol() {
         }
 
         //end wings piston code
-       pros::ADIDigitalOut ratchetPiston ('B'); // replace with actual port
-       bool isRatchetPistonLocked=false;
-       bool toggleRatchet;
+       
        if(controller.getDigital(ControllerDigital::up) == 1){  
           if(isRatchetPistonLocked){
           toggleRatchet=!toggleRatchet;
