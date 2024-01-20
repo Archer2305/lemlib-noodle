@@ -1,0 +1,8 @@
+#ifndef __WINGS_H__
+#define __WINGS_H__
+
+#include "pnuematics.hpp"
+
+extern pneumaticSys rachet_p;
+
+#endif
