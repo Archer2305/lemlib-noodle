@@ -22,7 +22,7 @@ lemlib::Drivetrain drivetrain(&leftMotors,                  // left motor group
                               11,                           // 11 inch track width
                               lemlib::Omniwheel::NEW_325,   // using new 3.25" omnis
                               450,                          // drivetrain rpm is 450
-                              2                             // chase power is 2.
+                              4                             // chase power is 2.
 );
 
 // lateral motion controller
@@ -107,7 +107,9 @@ void flipout() {
 void elims() {
     flipout();
     chassis.moveToPoint(0, 16, 1000);
-    chassis.moveToPose(-8, 38, 93, 1000);
+    chassis.moveToPose(-8, 38, -93, 1000);
+    chassis.waitUntilDone();
+
     intakeMotor.move_velocity(-600);
     pros::delay(640);
     intakeMotor.move_velocity(0);
@@ -115,10 +117,9 @@ void elims() {
     chassis.moveToPoint(12, 38, 2000, {.forwards=false});
     wings.set_state(1);
     chassis.waitUntilDone();
-    
 }
 void autonomous() {
-
+    elims();
 }
 
 void opcontrol() {
