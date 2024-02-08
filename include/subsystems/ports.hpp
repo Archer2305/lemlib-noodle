@@ -2,25 +2,26 @@
 #define __PORTS_H__
 
 //----------drive----------
-#define RIGHT_FRONT     -4
-#define RIGHT_MIDDLE    -2
-#define RIGHT_BACK      1
+#define RIGHT_FRONT     -11
+#define RIGHT_MIDDLE    -4
+#define RIGHT_BACK       5
 
-#define LEFT_FRONT      7
-#define LEFT_MIDDLE     8
-#define LEFT_BACK       -10
+#define LEFT_FRONT      20
+#define LEFT_MIDDLE      7
+#define LEFT_BACK       -6
 //-------------------------
 
 //----------intake---------
-#define INTAKE_PORT     19
+#define INTAKE1_PORT     12
+#define INTAKE2_PORT     13
 //-------------------------
 
 //----------lift----------
-#define LIFT_PORT       5
+#define LIFT_PORT       3
 //------------------------
 
 //---------sensors----------
-#define IMU_PORT        15
+#define IMU_PORT        1
 //--------------------------
 
 //---------pneumatics----------
