@@ -103,6 +103,7 @@ void autonomous() {
 void opcontrol() {
     while (true) {
         update_intake();
+        update_slapper();
         wings.driver_update();
         //rachet_p.drive_update();
 
