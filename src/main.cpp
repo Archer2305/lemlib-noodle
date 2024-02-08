@@ -97,29 +97,7 @@ void competition_initialize() {}
 // this needs to be put outside a function
 ASSET(example_txt); // '.' replaced with "_" to make c++ happy
 
-void flipout() {
-    liftMotor.move_voltage(12000);
-    pros::delay(120);
-    liftMotor.move_voltage(0);
-}
-
-
-void elims() {
-    flipout();
-    chassis.moveToPoint(0, 16, 1000);
-    chassis.moveToPose(-8, 38, -93, 1000);
-    chassis.waitUntilDone();
-
-    intakeMotor.move_velocity(-600);
-    pros::delay(640);
-    intakeMotor.move_velocity(0);
-
-    chassis.moveToPoint(12, 38, 2000, {.forwards=false});
-    wings.set_state(1);
-    chassis.waitUntilDone();
-}
 void autonomous() {
-    elims();
 }
 
 void opcontrol() {

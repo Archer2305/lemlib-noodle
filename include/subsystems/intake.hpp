@@ -1,7 +1,7 @@
 #ifndef __INTAKE_H__
 #define __INTAKE_H__
 
-extern pros::Motor intakeMotor;
+extern pros::MotorGroup intake;
 
 void update_intake();
 
