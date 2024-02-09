@@ -1,5 +1,6 @@
 #include "main.h"
 #include "lemlib/api.hpp"
+#include "subsystems/slapper.hpp"
 
 // drive motors
 pros::Motor leftFront(LEFT_FRONT, pros::E_MOTOR_GEARSET_06);
@@ -61,6 +62,20 @@ lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors
  * All other competition modes are blocked by initialize; it is recommended
  * to keep execution time for this mode under a few seconds.
  */
+
+// Please move this into drive.hpp, i cant figure out how to make it so im pasting it here
+
+
+void task1(){
+    chassis.moveToPose(0,0,30,1000);
+    leftMotors.move_velocity(5);
+    slapperMotor.move_velocity(100);
+    pros::delay(30 *1000);
+    slapperMotor.move_velocity(0);
+    leftMotors.move_velocity(0);
+
+
+}
 void initialize() {
     pros::lcd::initialize(); // initialize brain screen
     chassis.calibrate(); // calibrate sensors
@@ -98,14 +113,17 @@ void competition_initialize() {}
 ASSET(example_txt); // '.' replaced with "_" to make c++ happy
 
 void autonomous() {
+    task1();
+
 }
 
 void opcontrol() {
     while (true) {
         update_intake();
         update_slapper();
+        update_lift();
         wings.driver_update();
-        //rachet_p.drive_update();
+        rachet_p.driver_update();
 
         // get joystick positions
         int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);

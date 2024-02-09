@@ -40,6 +40,9 @@
 #define WINGS_ACTUATE_O         pros::E_CONTROLLER_DIGITAL_B
 #define WINGS_ACTUATE_I         pros::E_CONTROLLER_DIGITAL_DOWN
 
+#define RACHET_ACT             pros::E_CONTROLLER_DIGITAL_Y
+#define RACHET_DEACT           pros::E_CONTROLLER_DIGITAL_RIGHT
+
 #define BUTTON_SLAPPER          pros::E_CONTROLLER_DIGITAL_A
 //#define RACHET_ACT              
 //#define RACHET_DEACT

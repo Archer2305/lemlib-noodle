@@ -10,7 +10,7 @@ void update_slapper() {
 
     if (input && !last_input) {
         if (!slapper_state) {
-            slapperMotor.move_velocity(50);
+            slapperMotor.move_velocity(35);
             slapper_state = 1;
         } else {
             slapperMotor.move_voltage(0);

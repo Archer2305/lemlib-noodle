@@ -50,6 +50,7 @@
 #include "subsystems/wings.hpp"
 #include "subsystems/intake.hpp"
 #include "subsystems/slapper.hpp"
+#include "subsystems/rachet_p.hpp"
 
 /**
  * If you find doing pros::Motor() to be tedious and you'd prefer just to do
