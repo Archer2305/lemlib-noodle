@@ -29,13 +29,13 @@ lemlib::Drivetrain drivetrain(&leftMotors,                  // left motor group
 // lateral motion controller
 lemlib::ControllerSettings linearController(6,      // proportional gain (kP)
                                             0,      // integral gain (kI)
-                                            0,      // derivative gain (kD)
+                                            1,      // derivative gain (kD)
                                             3,      // anti windup
                                             1,      // small error range, in inches
                                             100,    // small error range timeout, in milliseconds
                                             4,      // large error range, in inches
                                             500,    // large error range timeout, in milliseconds
-                                            20      // maximum acceleration (slew)
+                                            0      // maximum acceleration (slew)
 );
 
 // angular motion controller
@@ -83,10 +83,14 @@ void initialize() {
     pros::Task screenTask([&]() {
         lemlib::Pose pose(0, 0, 0);
         while (true) {
-            pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
-            pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
-            pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
-            lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
+            pros::lcd::print(0, "LF: %lf", leftMotors.get_actual_velocities()[0]); // x
+            pros::lcd::print(1, "LM: %lf", rightMotors.get_actual_velocities()[0]); // y
+            //pros::lcd::print(2, "LB: %lf", leftBack.get_power()); // heading
+
+            //pros::lcd::print(3, "RF: %f", rightFront.get_power()); // x
+            //pros::lcd::print(4, "RM: %f", rightMiddle.get_power()); // y
+            //pros::lcd::print(5, "RB: %f", rightBack.get_power()); // heading
+
             pros::delay(50);
         }
     });
@@ -94,7 +98,27 @@ void initialize() {
     //Motor inits
     liftMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 }
+#if 0 
+void elims() {
+    flipout();
+    chassis.moveToPoint(0, 16, 1000);
+    chassis.moveToPose(-12, 44, -97, 1000);
+    chassis.waitUntilDone();
+    intakeMotor.move_velocity(-600);
+    pros::delay(640);
+    intakeMotor.move_velocity(0);
 
+    chassis.turnTo(-12, 0, 1000);
+    chassis.waitUntilDone();
+    chassis.moveToPose(16, 42, 1000, false);
+    wings.set_state(1);
+    chassis.turnTo(25, 42, 1000, false);
+    chassis.waitUntilDone();
+    chassis.tank(-127, -127);
+    pros::delay(400);
+    chassis.tank(0, 0);
+}
+#endif
 /**
  * Runs while the robot is disabled
  */
@@ -112,9 +136,104 @@ void competition_initialize() {}
 // this needs to be put outside a function
 ASSET(example_txt); // '.' replaced with "_" to make c++ happy
 
-void autonomous() {
-    task1();
+void flipout() {
+    liftMotor.move_voltage(12000);
+    pros::delay(320);
+    liftMotor.move_voltage(0);
+}
 
+void awp() {
+    flipout();
+    chassis.moveToPoint(0, 16, 1000);
+    chassis.moveToPose(-8, 38, -93, 1000);
+    chassis.waitUntilDone();
+    intake.move_velocity(-600);
+    pros::delay(640);
+    intake.move_velocity(0);
+
+    chassis.moveToPose(-28, 2, 42, 1600, {.forwards=false});
+    chassis.turnTo(-20, -6, 1000, false);
+    chassis.waitUntilDone();
+    chassis.tank(-80, -80);
+    pros::delay(64);
+    chassis.tank(0, 0);
+    wings.set_state(1);
+    chassis.turnTo(21, -8, 1000, false);
+    pros::delay(500);
+    wings.set_state(0);
+    chassis.turnTo(16, -10, 1000);
+
+    chassis.turnTo(13, -9, 1600);
+    chassis.waitUntilDone();
+    chassis.tank(80, 80);
+    pros::delay(610);
+    chassis.tank(0, 0);
+
+    chassis.turnTo(chassis.getPose().x + 12, chassis.getPose().y, 1600);
+    chassis.waitUntilDone();
+    chassis.tank(80, 80);
+    pros::delay(180);
+    chassis.tank(0, 0);
+
+    intake.move_velocity(-600);
+    pros::delay(1600);
+    intake.move_velocity(0);
+}
+
+void six_ball() {
+    flipout();
+
+    intake.move_velocity(600);
+    chassis.moveToPoint(0, 4, 1000, {.maxSpeed = 16});
+    pros::delay(420);
+    intake.move_velocity(0);
+
+    chassis.moveToPoint(0, -30, 2000, {.forwards = false, .maxSpeed=88});
+    chassis.moveToPose(42, -59, -84, 500, {.forwards = false, .maxSpeed=127}, true); //|
+    pros::delay(170);
+    //chassis.waitUntil(8);                                                             //|
+    wings.set_state(1);
+    //chassis.waitUntil(16);
+    pros::delay(640);
+    wings.set_state(0);
+    chassis.waitUntilDone();
+
+    chassis.moveToPoint(37, -55, 2000, {.forwards=false});
+    chassis.tank(64, 64);
+    pros::delay(100);
+    chassis.tank(0, 0);
+    chassis.moveToPose(32, -55, 95, 1000, {.maxSpeed = 64});
+    chassis.waitUntilDone();
+    intake.move_velocity(-600);
+    pros::delay(250);
+    chassis.tank(88, 88);
+    pros::delay(380);
+    chassis.tank(-80, -80);
+    pros::delay(400);
+    chassis.tank(0, 0);
+    intake.move_velocity(0);
+
+    chassis.moveToPoint(51, 0, 1000, {.maxSpeed=95});
+    intake.move_velocity(600);
+    chassis.waitUntilDone();
+    pros::delay(800);
+    intake.move_velocity(0);
+    chassis.moveToPoint(57, -38, 1000);
+    pros::delay(160);
+    intake.move_velocity(-600);
+    chassis.waitUntilDone();
+    chassis.tank(-80, -80);
+    pros::delay(100);
+    chassis.tank(0, 0);
+    intake.move_velocity(0);
+//backup
+    chassis.tank(-64, -64);
+    pros::delay(280);
+    chassis.tank(0, 0);
+}
+
+void autonomous() {
+    six_ball();
 }
 
 void opcontrol() {
@@ -126,6 +245,17 @@ void opcontrol() {
         rachet_p.driver_update();
 
         // get joystick positions
+        int input_brake = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X);
+        if (input_brake > 100) {
+            leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
+            rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_HOLD);
+            liftMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+        } else if (input_brake < -100) {
+            leftMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
+            rightMotors.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
+            liftMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+        }
+            
         int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
         int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
         // move the chassis with curvature drive
