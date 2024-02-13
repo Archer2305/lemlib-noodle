@@ -1,7 +1,7 @@
 #include "lemlib/chassis/chassis.hpp"
 #include <algorithm>
 #include <math.h>
-#include "lemlib/chassis/drive_constants.hpp"
+// #include "lemlib/chassis/drive_constants.hpp"   
 
 namespace lemlib {
 
@@ -75,7 +75,8 @@ void Chassis::curvature(int throttle, int turn, float curveGain) {
     leftPower = driveCurve(leftPower, curveGain);
     rightPower = driveCurve(rightPower, curveGain);
 
-    drivetrain.leftMotors->move(leftPower * LEFT_SCALAR);
+    drivetrain.leftMotors->move(leftPower 
+    );
     drivetrain.rightMotors->move(rightPower);
 }
 } // namespace lemlib

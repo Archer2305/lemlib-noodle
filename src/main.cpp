@@ -66,8 +66,26 @@ lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors
 // Please move this into drive.hpp, i cant figure out how to make it so im pasting it here
 
 
+void matchLoading(){
 
+    chassis.moveToPose(0,0,30,1000);
+    leftMotors.move_velocity(5);
+    // slapperMotor.move_velocity(100);
+    // pros::delay(30 *1000);
+    slapperMotor.move_velocity(0);
+    leftMotors.move_velocity(0);
+}
 
+void skillsRun(){
+chassis.moveToPoint(0.3,0.3 , 1000);
+wings.set_state(1);
+// imu.set_heading(30);
+matchLoading();
+chassis.moveToPose(1,1,60-30,1000);
+chassis.moveToPose(1.5,3,90-30,5*1000);
+wings.set_state(0);
+chassis.moveToPose(0.5,4,180-30,3*1000);
+}
 void initialize() {
     pros::lcd::initialize(); // initialize brain screen
     chassis.calibrate(); // calibrate sensors
@@ -225,7 +243,7 @@ void six_ball() {
 }
 
 void autonomous() {
-    six_ball();
+    skillsRun();
 }
 
 void opcontrol() {
