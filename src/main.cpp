@@ -66,16 +66,8 @@ lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors
 // Please move this into drive.hpp, i cant figure out how to make it so im pasting it here
 
 
-void task1(){
-    chassis.moveToPose(0,0,30,1000);
-    leftMotors.move_velocity(5);
-    slapperMotor.move_velocity(100);
-    pros::delay(30 *1000);
-    slapperMotor.move_velocity(0);
-    leftMotors.move_velocity(0);
 
 
-}
 void initialize() {
     pros::lcd::initialize(); // initialize brain screen
     chassis.calibrate(); // calibrate sensors
