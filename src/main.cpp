@@ -55,7 +55,9 @@ lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors
 //-----------------------------end-globals----------------------------
 
 
-
+void updateDriveNoodle(double L, double R){
+    chassis.tank(L,R);
+}
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -75,7 +77,7 @@ void matchLoading(){
     chassis.waitUntilDone();
     //leftMotors.move_velocity(-5);
     wings.set_state(1);
-    slapperMotor.move_velocity(50);
+    slapperMotor.move_velocity(55);
     pros::delay(30 *1000);
     slapperMotor.move_velocity(0);
     leftMotors.move_velocity(0);
